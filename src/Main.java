@@ -43,7 +43,7 @@ public class Main {
                 case SET_EMAIL -> setEmail(in, cBook);
                 case LIST_CONTACTS -> listAllContacts(cBook);
                 case GIVE_NUMBER -> giveNumber(in, cBook);
-                case EXISTS_PHONE -> existsPhone(in, cBook);
+                case EXISTS_PHONE -> existsPhone(cBook);
                 default -> System.out.println(COMMAND_ERROR);
             }
             System.out.println();
@@ -140,19 +140,19 @@ public class Main {
 
     private static void giveNumber(Scanner in, ContactBook cBook) {
         int number = in.nextInt();
+        in.nextLine();
         try {
-            Contact c = cBook.getContact();
-            System.out.println(c.getName() + "; " + c.getEmail() + "; " + c.getPhone());
+            Contact c = cBook.getContact(number);
+            System.out.println(c.getName());
         } catch (Exception NonExistentPhoneNumber) {
-            System.out.println("Phone number does not exist");
+            System.out.println("Phone number does not exist.");
         }
     }
 
     private static void existsPhone(ContactBook cBook) {
-        if(cBook.ExistsPhone(number))
-            System.out.println("There are contacts that share phone numbers");
+        if(cBook.ExistsSharedPhone())
+            System.out.println("There are contacts that share phone numbers.");
         else
-            System.out.println("All contacts have different phone numbers");
-
+            System.out.println("All contacts have different phone numbers.");
     }
 }
