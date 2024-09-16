@@ -1,6 +1,7 @@
 import contactBook.Contact;
 import contactBook.ContactBook;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 
@@ -13,6 +14,8 @@ public class Main {
     public static final String SET_PHONE      = "SP";
     public static final String SET_EMAIL      = "SE";
     public static final String LIST_CONTACTS  = "LC";
+    public static final String GIVE_NUMBER    = "GN";
+    public static final String EXISTS_PHONE   = "EP";
     public static final String QUIT           = "Q";
 
     //Constantes que definem as mensagens para o utilizador
@@ -32,29 +35,16 @@ public class Main {
 
         while (!comm.equals(QUIT)){
             switch (comm) {
-                case ADD_CONTACT:
-                    addContact(in,cBook);
-                    break;
-                case REMOVE_CONTACT:
-                    deleteContact(in,cBook);
-                    break;
-                case GET_PHONE:
-                    getPhone(in,cBook);
-                    break;
-                case GET_EMAIL:
-                    getEmail(in,cBook);
-                    break;
-                case SET_PHONE:
-                    setPhone(in,cBook);
-                    break;
-                case SET_EMAIL:
-                    setEmail(in,cBook);
-                    break;
-                case LIST_CONTACTS:
-                    listAllContacts(cBook);
-                    break;
-                default:
-                    System.out.println(COMMAND_ERROR);
+                case ADD_CONTACT -> addContact(in, cBook);
+                case REMOVE_CONTACT -> deleteContact(in, cBook);
+                case GET_PHONE -> getPhone(in, cBook);
+                case GET_EMAIL -> getEmail(in, cBook);
+                case SET_PHONE -> setPhone(in, cBook);
+                case SET_EMAIL -> setEmail(in, cBook);
+                case LIST_CONTACTS -> listAllContacts(cBook);
+                case GIVE_NUMBER -> giveNumber(in, cBook);
+                case EXISTS_PHONE -> existsPhone(in, cBook);
+                default -> System.out.println(COMMAND_ERROR);
             }
             System.out.println();
             comm = getCommand(in);
@@ -146,5 +136,23 @@ public class Main {
             }
         }
         else System.out.println(BOOK_EMPTY);
+    }
+
+    private static void giveNumber(Scanner in, ContactBook cBook) {
+        int number = in.nextInt();
+        try {
+            Contact c = cBook.getContact();
+            System.out.println(c.getName() + "; " + c.getEmail() + "; " + c.getPhone());
+        } catch (Exception NonExistentPhoneNumber) {
+            System.out.println("Phone number does not exist");
+        }
+    }
+
+    private static void existsPhone(ContactBook cBook) {
+        if(cBook.ExistsPhone(number))
+            System.out.println("There are contacts that share phone numbers");
+        else
+            System.out.println("All contacts have different phone numbers");
+
     }
 }
